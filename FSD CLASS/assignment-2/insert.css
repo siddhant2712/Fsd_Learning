@@ -1,0 +1,29 @@
+.box{
+    height: 200px;
+    width: auto;
+    background-color: lightblue;
+    color: white;
+    border-radius: 10px;
+    border: 2px solid black;
+    box-shadow: 2px 2px 5px gray;
+    padding: 10px;
+    margin: 10px;
+    font-size: 20px;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+    line-height: 1.5;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    background: linear-gradient(45deg, #ff6b6b, #f06595, #ffe66d, #6bcb77, #4d96ff);
+}
+.box:hover{
+    background-color: lightcoral;
+    color: white;
+    transform: scale(1.05);
+    box-shadow: 4px 4px 10px gray;
+}
