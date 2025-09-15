@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Multiplication Tables Beginner</title>
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+
+<div class="bg-white p-8 rounded-xl shadow-lg w-[800px]">
+    <h1 class="text-2xl font-bold mb-6 text-center text-gray-800">Multiplication Tables</h1>
+
+    <input id="num1" type="number" placeholder="Enter 1st number" 
+        class="w-full border p-2 rounded mb-4">
+    <input id="num2" type="number" placeholder="Enter 2nd number" 
+        class="w-full border p-2 rounded mb-4">
+
+    <button onclick="printTables()"
+            class="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600">
+    Show Tables
+    </button>
+
+    <div class="grid grid-cols-2 gap-6 mt-6">
+        <div id="table1" class="text-lg font-mono text-gray-700"></div>
+        <div id="table2" class="text-lg font-mono text-gray-700"></div>
+    </div>
+
+    <div class="mt-8">
+        <div id="evenResult" class="mb-6 text-green-700 font-mono"></div>
+        <div id="oddResult" class="text-red-700 font-mono"></div>
+    </div>
+</div>
+
+<script>
+    function printTables() {
+        let n1 = document.getElementById("num1").value;
+        let n2 = document.getElementById("num2").value;
+
+        if (n1 === "" || n2 === "") {
+            alert("Please enter both numbers!");
+            return;
+        }
+
+        n1 = Number(n1);
+        n2 = Number(n2);
+
+        let table1 = "<h2 class='font-bold mb-2'>Table of " + n1 + ":</h2>";
+        let table2 = "<h2 class='font-bold mb-2'>Table of " + n2 + ":</h2>";
+        let evenText = "<h2 class='font-bold text-green-600 mb-2'>All Even Results:</h2>";
+        let oddText = "<h2 class='font-bold text-red-600 mb-2'>All Odd Results:</h2>";
+
+        for (let i = 1; i <= 10; i++) {
+            let p1 = n1 * i;
+            let p2 = n2 * i;
+
+            table1 += n1 + " x " + i + " = " + p1 + "<br>";
+            table2 += n2 + " x " + i + " = " + p2 + "<br>";
+
+            if (p1 % 2 === 0) {
+                evenText += n1 + " x " + i + " = " + p1 + "<br>";
+            } else {
+                oddText += n1 + " x " + i + " = " + p1 + "<br>";
+            }
+
+            if (p2 % 2 === 0) {
+                evenText += n2 + " x " + i + " = " + p2 + "<br>";
+            } else {
+                oddText += n2 + " x " + i + " = " + p2 + "<br>";
+            }
+        }
+
+        document.getElementById("table1").innerHTML = table1;
+        document.getElementById("table2").innerHTML = table2;
+        document.getElementById("evenResult").innerHTML = evenText;
+        document.getElementById("oddResult").innerHTML = oddText;
+    }
+</script>
+
+</body>
+</html>
