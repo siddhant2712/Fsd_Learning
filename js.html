@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My JS Example</title>
+</head>
+<body>
+
+  <h1>Welcome!</h1>
+
+  <script>
+    let name = "vineet";
+    alert(`Hello, ${name}!`);
+    console.log(typeof name); // string
+
+    let num = 10;
+    console.log(typeof num); // number
+
+    let num1 = "10";
+    console.log(typeof num1); // string
+    console.log(num + num1); // 1010
+
+    let isPassed = true;
+    console.log(typeof isPassed); // boolean
+
+    let my_add;
+    console.log(typeof my_add); // undefined
+
+    let pincode = null;
+    console.log(typeof pincode); // object
+
+    let my_info = {
+      name: "vineet",
+      age: 20,
+      isMarried: false,
+      add: "agra",
+      course: null,
+      pincode: 283110,
+    };
+
+    console.log(my_info.name); // vineet
+    console.log(my_info.name + " is from " + my_info.add);
+    console.log(`${my_info.name} ${my_info.course} ${my_info.pincode}`);
+
+    function msg() {
+      alert("Welcome to JS");
+      document.body.innerHTML += "<p>THANKS FOR VISITING US!</p>";
+    }
+    msg();
+
+    let student = ["vineet", "20", "agra", false];
+    console.log(student[0]); // vineet
+
+    let student2 = {
+      name: ["Abhay", "Nikhil", "Ajay", "Dev"],
+      age: 20,
+      add: {
+        city: "Delhi",
+        area: "karolbag",
+        pincode: 234122,
+      },
+      getinfo: function () {
+        console.log("thanks");
+      },
+    };
+
+    console.log(student2.name[2]); // Ajay
+    student2.getinfo(); // logs "thanks"
+    console.log(student2.add.area); // karolbag
+  </script>
+
+</body>
+</html>
