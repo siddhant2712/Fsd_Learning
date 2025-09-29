@@ -1,0 +1,126 @@
+<!-- MindMirror: Personal Growth Recorder with LocalStorage and Login Ready -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MindMirror - Growth Diary</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 p-4 font-sans">
+  <div class="max-w-3xl mx-auto">
+    <h1 class="text-3xl font-bold text-center mb-4">🧠 MindMirror - 60-Day Growth Diary</h1>
+
+    <!-- Login Section -->
+    <div class="bg-white p-4 rounded shadow mb-6" id="loginSection">
+      <h2 class="text-xl font-semibold mb-2">Login</h2>
+      <input type="text" id="username" class="w-full border p-2 mb-2" placeholder="Enter your name" />
+      <button onclick="login()" class="bg-blue-600 text-white px-4 py-2 rounded">Login</button>
+    </div>
+
+    <!-- Diary Section -->
+    <div id="diaryApp" style="display:none;">
+      <!-- Diary Entry Form -->
+      <div class="bg-white p-4 rounded shadow mb-6">
+        <h2 class="text-xl font-semibold mb-2">New Diary Entry</h2>
+        <form id="diaryForm">
+          <input type="date" id="date" class="w-full border p-2 mb-2" required />
+          <textarea id="entryText" class="w-full border p-2 mb-2" rows="4" placeholder="What did you do today?"></textarea>
+          <label>Mood:</label>
+          <select id="mood" class="w-full border p-2 mb-2">
+            <option>😊 Happy</option>
+            <option>😐 Neutral</option>
+            <option>😔 Sad</option>
+          </select>
+          <input type="text" id="goals" class="w-full border p-2 mb-2" placeholder="Goals achieved (comma separated)" />
+          <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Save Entry</button>
+        </form>
+      </div>
+
+      <!-- Charts Section -->
+      <div class="bg-white p-4 rounded shadow">
+        <h2 class="text-xl font-semibold mb-4">📊 Your Growth Overview</h2>
+        <canvas id="moodChart" height="100"></canvas>
+        <canvas id="goalChart" height="100" class="mt-6"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let moodData = { Happy: 0, Neutral: 0, Sad: 0 };
+    let goalData = {};
+    let user = "";
+
+    function login() {
+      user = document.getElementById("username").value.trim();
+      if (user) {
+        document.getElementById("loginSection").style.display = "none";
+        document.getElementById("diaryApp").style.display = "block";
+        loadEntries();
+      }
+    }
+
+    const diaryForm = document.getElementById("diaryForm");
+
+    diaryForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      const date = document.getElementById("date").value;
+      const entry = document.getElementById("entryText").value;
+      const mood = document.getElementById("mood").value.split(" ")[1];
+      const goals = document.getElementById("goals").value.split(",").map(g => g.trim());
+
+      moodData[mood]++;
+      goals.forEach(goal => {
+        if (goal) goalData[goal] = (goalData[goal] || 0) + 1;
+      });
+
+      const savedEntries = JSON.parse(localStorage.getItem(user)) || [];
+      savedEntries.push({ date, entry, mood, goals });
+      localStorage.setItem(user, JSON.stringify(savedEntries));
+
+      renderCharts();
+      diaryForm.reset();
+    });
+
+    function loadEntries() {
+      const savedEntries = JSON.parse(localStorage.getItem(user)) || [];
+      savedEntries.forEach(({ mood, goals }) => {
+        moodData[mood]++;
+        goals.forEach(goal => {
+          if (goal) goalData[goal] = (goalData[goal] || 0) + 1;
+        });
+      });
+      renderCharts();
+    }
+
+    function renderCharts() {
+      const moodCtx = document.getElementById("moodChart").getContext("2d");
+      new Chart(moodCtx, {
+        type: "bar",
+        data: {
+          labels: Object.keys(moodData),
+          datasets: [{
+            label: "Mood Frequency",
+            data: Object.values(moodData),
+            backgroundColor: ["#34d399", "#fbbf24", "#f87171"]
+          }]
+        }
+      });
+
+      const goalCtx = document.getElementById("goalChart").getContext("2d");
+      new Chart(goalCtx, {
+        type: "pie",
+        data: {
+          labels: Object.keys(goalData),
+          datasets: [{
+            label: "Goals Achieved",
+            data: Object.values(goalData),
+            backgroundColor: ["#60a5fa", "#f472b6", "#34d399", "#facc15", "#c084fc"]
+          }]
+        }
+      });
+    }
+  </script>
+</body>
+</html>
